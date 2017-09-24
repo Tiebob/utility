@@ -1,0 +1,27 @@
+#-*-coding:utf-8 -*-
+
+import os,sys
+
+# target 檔案位置
+# pre_char_num 判斷多少字元相同的檔案匯成同一個pdf
+pre_char_num = 9
+
+if len(sys.argv) == 1:
+    target = "."
+    pre_char_num = 9
+if len(sys.argv) == 2:
+    target = sys.argv[1]
+    pre_char_num = 9
+if len(sys.argv) == 3:
+    pre_char_num = sys.argv[2]
+   
+
+#預計匯出的檔案名稱
+my_files = []
+for root,dirs,files in os.walk( target ):
+    for file in sorted(files):
+        if file[:pre_char_num] not in my_files:
+            my_files.append( file[:pre_char_num] )
+            #str = file[:9]
+for file in my_files:
+    print "pdftk " + file + "*.pdf cat output " + file + ".pdf"
